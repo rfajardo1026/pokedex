@@ -1,28 +1,8 @@
-import React, { useEffect, useState } from "react";
-import apiClient from "../services/api-client";
 import { Text } from "@chakra-ui/react";
-
-interface Pokemon {
-  id: number;
-  name: string;
-}
-
-interface FetchPokemonResponse {
-  count: number;
-  results: Pokemon[];
-}
+import usePokemon from "../hooks/usePokemon";
 
 export default function PokemonGrid() {
-  const [pokemon, setPokemon] = useState<Pokemon[]>([]);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    apiClient
-      .get<FetchPokemonResponse>("/pokemon")
-      .then((res) => setPokemon(res.data.results))
-      .catch((err) => setError(err.message));
-  });
-
+  const { pokemon, error } = usePokemon();
   return (
     <>
       {error && <Text>{error}</Text>}
